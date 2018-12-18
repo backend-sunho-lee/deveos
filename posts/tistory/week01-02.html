@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<p>안녕하세요! <a href='https://deveos.org/'>DEVEOS</a>의 블록체인 개발자 써니입니다☀️</p>
+<p>&nbsp;</p>
+<p>개발을 할 수 있는 환경이 만들어졌으니 이제 본격적으로 시작을 해봐야겠죠. </p>
+<p>모든 프로그래밍 언어를 배울 때 제일 먼저 해보는 실습이 &quot;Hello World!&quot;입니다. 저희 또한 Hello World 실습을 해보도록 하겠습니다.</p>
+<p>다시 한번 말하지만, <strong><em>현재 글은 Mac OS를 기준으로 작성되었습니다.</em></strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>hello.cpp 파일 생성</h2>
+<p>스마트 컨트랙트 코드는 확장자가 <code>cpp</code> 인 파일에 작성을 해줘야 하는데요. 코드를 작성할 hello.cpp 파일을 만들어줍니다.</p>
+<p>&nbsp;</p>
+<p>터미널에  <code>pwd</code> 를 입력해서 현재 위치가 어딘지 확인해주세요.  <code>/Users/sunny</code> 처럼 출력될겁니다. 나중에 헷갈리지 않게 기억해두세요.</p>
+<pre><code class='language-shell' lang='shell'>pwd
+</code></pre>
+<p>&nbsp;</p>
+<p>그 위치에서 스마트 컨트랙트를 작성할 폴더를 만들어줄 겁니다. <code>contracts</code> 폴더 안에 <code>hello</code> 폴더를 만들어줍니다.</p>
+<pre><code class='language-shell' lang='shell'>mkdir contracts
+cd contracts
+mkdir hello
+cd hello
+</code></pre>
+<ul>
+<li><p><code>mkdir</code></p>
+<p>make directory의 약자로 폴더를 만들어주는 명령어입니다.</p>
+</li>
+<li><p><code>cd</code></p>
+<p>change directory의 약자로 폴더를 이동하는 명령어입니다.</p>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<p>파일을 만들어주는  <code>touch</code> 명령어를 활용하여 <code>hello.cpp</code> 파일을 만들어줍니다. 그리고 처음에 설치한 에디터에서 <code>hello.cpp</code> 파일을 Open 합니다.</p>
+<pre><code class='language-shell' lang='shell'>touch hello.cpp
+</code></pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>완성될 Hello World 코드입니다.</p>
+<pre><code class='language-c++' lang='c++'>/**
+ * Hello World!
+ */
+
+#include &lt;eosiolib/eosio.hpp&gt;
+#include &lt;eosiolib/print.hpp&gt;
+
+using namespace eosio;
+
+class [[eosio::contract]] hello : public contract {
+public:
+    using contract::contract;
+    
+    [[eosio::action]]
+    void hi( name user ) {
+        print(&quot;Hello, &quot;, user);
+    }
+};
+
+EOSIO_DISPATCH( hello, (hi))
+</code></pre>
+<p>이제부터 hello.cpp에 코드를 작성하며 하나씩 차근차근 C++ 필수 기초 지식에 대해서 알아보겠습니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>주석(comment)</h3>
+<p>주석은 컴파일러에 의해 무시되어 프로그래밍에 영향을 주지 않으며 메모 용도로 사용합니다. 아래처럼 한줄 또는 여러줄로 주석을 남길 수 있습니다.</p>
+<p>소스 코드를 더 쉽게 이해할 수 있게 만들기 위해서 사용되며 협업을 할 때는 주석을 남겨서 별도 전달 없이도 소통이 가능하도록 해주는게 좋습니다.</p>
+<pre><code class='language-c++' lang='c++'>/**
+ * 여러 줄 주석
+ */
+
+// 한 줄 주석
+</code></pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>헤더파일(Header File)의 확장</h2>
+<pre><code class='language-c++' lang='c++'>#include &lt;eosiolib/eosio.hpp&gt;	// 필요한 헤더 파일을 호출
+#include &lt;eosiolib/print.hpp&gt;
+</code></pre>
+<p><strong>전처리기(C++ Preprocessor)에 대한 지시문</strong>입니다. C++ 컴파일러는 컴파일 전에 우선 전처리기(preprocessor)를 실행시켜 #include문을 처리하도록 한 후, 소스 파일을 컴파일합니다. </p>
+<p>전처리기는 #include 문에 지정된 &lt;헤더 파일&gt;의 텍스트를 #include 문이 있던 그 자리에 삽입한다. 이를 ‘헤더 파일의 확장’이라고 말합니다.</p>
+<p><code>eosiolib/eosoio.hpp</code> 포함하여 eosio 스마트 컨트랙트 작성에 필요한 헤더 파일을 불러옵니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>이름 공간(namespace)</h2>
+<p>앞에서 eosiolib/eosio.hpp 헤더파일을 호출했습니다. 그리고 그 헤더파일 안에 있는 멤버들을 사용하려면 아래와 같이 호출해야 합니다.</p>
+<pre><code class='language-c++' lang='c++'>eosio::name
+//이름 공간 :: 이름
+</code></pre>
+<ul>
+<li><code>::</code> 접두사</li>
+
+</ul>
+<p>프로젝트를 여러 명이 나누어 개발하는 경우, 한 개발자가 작성한 클래스, 상수, 변수, 함수의 이름이 같은 다른 개발자가 작성한 이름과 동일하면, 함께 컴파일할 때 오류가 발생합니다. 그래서 이름이 충돌하는 경우를 대비하기 위해서 자신만의 고유한 이름 공간을 표시하는 방법입니다.</p>
+<p>아파트 단지에 ‘써니’라는 사람이 여럿 살고 있습니다. 그러므로 우리는 아파트 단지에서 ‘써니’를 찾고자 하면, 몇 동에 사는 ‘써니’인지 구분해야 합니다. 그래서 ‘1동에 사는 써니’를 찾기 위해 ‘1동::써니’를 부르는 모양으로 보여주는 겁니다. 여기서 <u>&#39;써니’는 이름, ‘1동’은 이름 공간</u>입니다. 이름 공간과 이름을 함께 표기하면 같은 이름을 가진 사람을 쉽게 구분할 수 있습니다.</p>
+<p>&nbsp;</p>
+<p>그리고 아래처럼 <code>using</code> 지시어를 이용하면 이름 공간 접두어를 생략할 수 있습니다.</p>
+<pre><code class='language-c++' lang='c++'>using namespace eosio;
+</code></pre>
+<pre><code class='language-c++' lang='c++'>name
+</code></pre>
+<p>이름공간에 선언된 수많은 이름에 대해 사용할 때마다 <code>::</code> 접두어를 붙이는 것은 상당히 번거롭습니다. 코드를 더 간결하게 만들기 위해서 namespace를 사용합니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>헤더 파일과 namespace에 대해서 알아보았습니다. </p>
+<p>모든 개발자들은 보다 나은 코드, 읽기 쉬운 코드를 작성하기 위해 노력합니다. 헤더 파일과 namespace은 간단하지만 이를 위해 필수적인 부분이며 이로써 보다 나은 프로그래밍을 할 수 있게 됩니다.</p>
+</body>
+</html>

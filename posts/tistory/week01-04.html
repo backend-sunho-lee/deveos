@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<p>안녕하세요! <a href='https://deveos.org/'>DEVEOS</a>의 블록체인 개발자 써니입니다☀️</p>
+<p>&nbsp;</p>
+<p>지난편에 이어서 Hello World! 실습을 합니다.</p>
+<pre><code class='language-c++' lang='c++'>/**
+ * Hello World! 완성 코드
+ */
+
+#include &lt;eosiolib/eosio.hpp&gt;
+#include &lt;eosiolib/print.hpp&gt;
+
+using namespace eosio;
+
+class [[eosio::contract]] hello : public contract {
+public:
+    using contract::contract;
+    
+    [[eosio::action]]
+    void hi( name user ) {
+        print(&quot;Hello, &quot;, user);
+    }
+};
+
+EOSIO_DISPATCH( hello, (hi))
+</code></pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>오늘은 함수와 변수, 데이터 타입에 대해서 배워보도록 하겠습니다.</p>
+<pre><code class='language-c++' lang='c++'>void hi( name user ) {
+    print(&quot;Hello, &quot;, user);
+}
+</code></pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>함수(function)</h2>
+<p>함수는 하나의 특별한 목적의 작업을 수행하기 위해 독립적으로 설계된 코드의 집합입니다.</p>
+<p>반복적인 프로그래밍을 피하기 위해서 사용됩니다. 여러 개의 함수로 나누어 작성하면, 모듈화로 인해 전체적인 코드의 가독성이 좋아집니다. 또한, 문제가 발생하거나 기능의 변경이 필요할 때에도 손쉽게 유지보수를 할 수 있습니다.</p>
+<p>&nbsp;</p>
+<pre><code class='language-c++' lang='c++'>반환타입 함수명 ( 매개변수 ) {
+	// 함수몸체(실행할 코드 입력)
+}
+</code></pre>
+<ul>
+<li><p>반환 타입(return type)</p>
+<p>함수가 모든 작업을 마치고 반환하는 데이터의 타입을 명시합니다.</p>
+</li>
+<li><p>함수명</p>
+<p>함수를 호출하기 위한 이름을 명시합니다.</p>
+</li>
+<li><p>매개변수 목록(parameters)</p>
+<p>함수 호출 시에 전달되는 인수의 값을 저장할 변수들을 명시합니다</p>
+</li>
+<li><p>함수 몸체</p>
+<p>함수의 고유 기능을 수행하는 명령문의 집합입니다.</p>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>매개변수(parameters)</h2>
+<pre><code class='language-c++' lang='c++'>int number, string username
+</code></pre>
+<p><code>데이터타입 변수이름</code> 형식으로 작성되며 <code>,</code> 쉼표로 여러개를 나열할 수 있습니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>데이터 타입(data type)</h2>
+<ul>
+<li>C++ 데이터 타입</li>
+
+</ul>
+<figure><table>
+<thead>
+<tr><th style='text-align:center;' >자료형</th><th style='text-align:center;' >명칭</th><th style='text-align:left;' >&nbsp;</th></tr></thead>
+<tbody><tr><td style='text-align:center;' >기본형</td><td style='text-align:center;' >void</td><td style='text-align:left;' >함수의 끝에 도달하거나 반환 값 없이 반환문을 실행함으로써 끝난다</td></tr><tr><td style='text-align:center;' >문자형</td><td style='text-align:center;' >char</td><td style='text-align:left;' >&#39;A&#39;, &#39;1&#39;와 같은 문자</td></tr><tr><td style='text-align:center;' >&nbsp;</td><td style='text-align:center;' >string</td><td style='text-align:left;' >char의 배열형</td></tr><tr><td style='text-align:center;' >정수형</td><td style='text-align:center;' >bool</td><td style='text-align:left;' >true/false, 0, 1</td></tr><tr><td style='text-align:center;' >&nbsp;</td><td style='text-align:center;' >int</td><td style='text-align:left;' >1, 2, 3, -1, -2, -3, 0</td></tr><tr><td style='text-align:center;' >&nbsp;</td><td style='text-align:center;' >uint64_t</td><td style='text-align:left;' >64비트(8바이트) 크기의 부호 없는 정수형 변수 선언</td></tr><tr><td style='text-align:center;' >실수형</td><td style='text-align:center;' >float</td><td style='text-align:left;' >실수. 1.2, 2.345</td></tr><tr><td style='text-align:center;' >&nbsp;</td><td style='text-align:center;' >double</td><td style='text-align:left;' >실수, float보다 더 넓은 범위를 포함한다.</td></tr></tbody>
+</table></figure>
+<p>&nbsp;</p>
+<ul>
+<li>eosio-cpp 데이터 타입</li>
+
+</ul>
+<figure><table>
+<thead>
+<tr><th style='text-align:center;' >명칭</th><th>설명</th></tr></thead>
+<tbody><tr><td style='text-align:center;' >action</td><td>defines API for querying action and sending action</td></tr><tr><td style='text-align:center;' >asset</td><td>The amount of the asset</td></tr><tr><td style='text-align:center;' >symbol</td><td>The symbol name of the asset</td></tr><tr><td style='text-align:center;' >name</td><td>wraps a uint64_t to ensure it is only passed to methods that expect a Name</td></tr></tbody>
+</table></figure>
+<p>C++ 데이터 타입 중 일부만 사용되고 EOSIO에서 만든 별도의 데이터 타입을 사용합니다. 아래는 그 중 자주 사용되는 데이터 타입입니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>함수 선언 방법과 매개변수, 데이터 타입에 대해서 배워봤는데요. 함수는 로직, 프로그래머가 하고 싶은 이야기를 담는 도구입니다. 함수명, 매개변수명을 어떻게 정하냐에 따라 가독성이 높아지고, 함수 모듈화 잘할수록 유지보수가 쉬워집니다. 이런 부분에서 프로그래머의 실력이 보입니다. 항상 보다 나은 코드 작성을 위해 노력하셔야합니다.</p>
+<p>&nbsp;</p>
+</body>
+</html>
