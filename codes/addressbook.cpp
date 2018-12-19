@@ -12,6 +12,7 @@ private:
     string last_name;
     string street;
     string city;
+    
     uint64_t primary_key() const { return key.value; }
   };
   typedef eosio::multi_index<"people"_n, person> address_index;
