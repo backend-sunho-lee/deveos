@@ -1,0 +1,190 @@
+<!doctype html>
+<html>
+<body>
+<p><img src='/Users/sunny/deveos/posts/img/썸네일/10. 컴파일.jpg' alt='thumbnail' referrerPolicy='no-referrer' /></p>
+<p>안녕하세요! <a href='https://deveos.org/'>DEVEOS</a>의 블록체인 개발자 써니입니다☀️</p>
+<p>&nbsp;</p>
+<p>지난편에서 주소록 스마트 컨트랙트 코드를 다 작성해보았습니다. 그리고 이제 오류는 없는지 확인하고 WASM 파일로 변환하는 컴파일 과정을 진행해보도록 하겠습니다.</p>
+<p>컴파일은 이미 Hello World 실습 때 진행해보았는데요. 보다 자세한 용어 설명을 원하시면 이전 게시물을 봐주시면 감사하겠습니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>속성 명시</h2>
+<pre><code class='language-c++' lang='c++'>#include &lt;eosiolib/eosio.hpp&gt;
+
+using namespace eosio;
+using namespace std;
+
+class [[eosio::contract]] addressbook : public contract {
+
+private:
+  struct [[eosio::table]] person {
+    name key;
+    string first_name;
+    string last_name;
+    string street;
+    string city;
+    
+    uint64_t primary_key() const { return key.value; }
+  };
+  typedef eosio::multi_index&lt;&quot;people&quot;_n, person&gt; address_index;
+
+public:
+  addressbook(name receiver, name code, datastream&lt;const char*&gt; ds):contract(receiver, code, ds) {}
+
+  [[eosio::action]]
+  void upsert(name user, string first_name, string last_name, string street, string city, string state) {
+    address_index addresses(_code, _code.value);
+    auto iterator = addresses.find(user.value);
+    if( iterator == addresses.end() )
+    {
+      addresses.emplace(user, [&amp;]( auto&amp; row ) {
+       row.key = user;
+       row.first_name = first_name;
+       row.last_name = last_name;
+       row.street = street;
+       row.city = city;
+      });
+    }
+    else {
+      addresses.modify(iterator, user, [&amp;]( auto&amp; row ) {
+        row.key = user;
+        row.first_name = first_name;
+        row.last_name = last_name;
+        row.street = street;
+        row.city = city;
+      });
+    }
+  }
+
+};
+
+EOSIO_DISPATCH( addressbook, (upsert))
+</code></pre>
+<p>ABI 생성기가 인식할 수 있도록 <code>[[eosio::contract]]</code> , <code>[[eosio::table]]</code> ,  <code>[[eosio::action]]</code> 을 명시해줍니다.</p>
+<p>&nbsp;</p>
+<pre><code class='language-c++' lang='c++'>EOSIO_DISPATCH( 컨트랙트 이름, (액션1, 액션2))
+</code></pre>
+<p>컴파일러가 인식할 수 있도록 <code>EOSIO_DISPATCH</code> 계약 적용 핸들러를 만들어주는 매크로를 추가합니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>eosio-cpp 컴파일러</h2>
+<p>eosio-cpp는 EOSIO가 사용하는 컴파일러입니다. eosio.cdt에 포함되어 있으며 컴파일하면 C++ 코드가 기계어, WebAssembly(WASM)으로 변환된 것을 확인할 수 있습니다. 그리고 ABI 파일도 생성됩니다.</p>
+<p>&nbsp;</p>
+<h3>사용 방법</h3>
+<p>터미널 창에서 여러분의 위치를 확인합니다. /Users/sunny/contracts/addressbook 와 같이 <code>contracts/addressbook</code> 폴더에 위치하셔야 합니다.</p>
+<pre><code class='language-shell' lang='shell'>pwd
+</code></pre>
+<p>&nbsp;</p>
+<pre><code class='language-shell' lang='shell'>eosio-cpp -o addressbook.wasm addressbook.cpp --abigen
+</code></pre>
+<p>터미널에 컴파일 명령어를 입력합니다.</p>
+<ul>
+<li>-o
+output, 출력을 의미</li>
+<li>addressbook.wasm
+출력할 WASM 파일 이름</li>
+<li>addressbook.cpp
+변환할 C++ 코드 파일</li>
+<li>--abigen
+ABI 파일도 함께 생성해주는 명령어</li>
+
+</ul>
+<p>&nbsp;</p>
+<p>컴파일에 성공하면 addressbook.wasm 파일과 함께 아래와 같은 addressbook.abi 파일이 생성됩니다.</p>
+<pre><code>{
+    &quot;____comment&quot;: &quot;This file was generated with eosio-abigen. DO NOT EDIT Mon Dec 17 18:09:08 2018&quot;,
+    &quot;version&quot;: &quot;eosio::abi/1.1&quot;,
+    &quot;structs&quot;: [
+        {
+            &quot;name&quot;: &quot;person&quot;,
+            &quot;base&quot;: &quot;&quot;,
+            &quot;fields&quot;: [
+                {
+                    &quot;name&quot;: &quot;key&quot;,
+                    &quot;type&quot;: &quot;name&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;first_name&quot;,
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;last_name&quot;,
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;street&quot;,
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;city&quot;,
+                    &quot;type&quot;: &quot;string&quot;
+                }
+            ]
+        },
+        {
+            &quot;name&quot;: &quot;upsert&quot;,
+            &quot;base&quot;: &quot;&quot;,
+            &quot;fields&quot;: [
+                {
+                    &quot;name&quot;: &quot;user&quot;,
+                    &quot;type&quot;: &quot;name&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;first_name&quot;,
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;last_name&quot;,
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;street&quot;,
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;city&quot;,
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;state&quot;,
+                    &quot;type&quot;: &quot;string&quot;
+                }
+            ]
+        }
+    ],
+    &quot;types&quot;: [],
+    &quot;actions&quot;: [
+        {
+            &quot;name&quot;: &quot;upsert&quot;,
+            &quot;type&quot;: &quot;upsert&quot;,
+            &quot;ricardian_contract&quot;: &quot;&quot;
+        }
+    ],
+    &quot;tables&quot;: [
+        {
+            &quot;name&quot;: &quot;people&quot;,
+            &quot;type&quot;: &quot;person&quot;,
+            &quot;index_type&quot;: &quot;i64&quot;,
+            &quot;key_names&quot;: [],
+            &quot;key_types&quot;: []
+        }
+    ],
+    &quot;ricardian_clauses&quot;: [],
+    &quot;variants&quot;: [],
+    &quot;abi_extensions&quot;: []
+}
+</code></pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr />
+<p>주소록 스마트 컨트랙트 실습을 통하여 주소록 데이터베이스 구조를 짜며 struct, field, primary key, multi index table을 배우고 주소록에 데이터를 추가/수정하는 코드를 작성하며 constructor, 함수, 객체, 반복자, 조건문에 대해서 배우며 스마트 컨트랙트를 작성 필수 요소들에 대해 다뤄보았습니다. </p>
+<p>이번 실습에서 배운 구조, 흐름을 이해하신다면 실제 여러분의 프로젝트에서 스마트 컨트랙트를 어떻게 작성할지 감이 잡히실거라 생각합니다.</p>
+<p>제 강의를 통해 100% 이해하시긴 힘들어도 어떤 것들을 더 공부해야할지 아실 수 있을거라 생각합니다.</p>
+<p>&nbsp;</p>
+<p>여기까지 잘 따라와주셔서 감사합니다. 다음에 다시 뵙겠습니다!</p>
+<p>&nbsp;</p>
+</body>
+</html>
