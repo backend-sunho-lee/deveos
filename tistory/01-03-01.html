@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<body>
+<p>안녕하세요! <a href='https://deveos.org/'>DEVEOS</a>의 블록체인 개발자 써니입니다☀️</p>
+<p>&nbsp;</p>
+<p>지난 시간까지 스마트 컨트랙트 코드를 작성하기 위해 필요한 C++ 지식에 대해서 알아보았습니다. 반드시 알아야 할 키워드 위주로 다뤘기 때문에 복습하다보면 무엇을 더 배워야 하는지 감이 잡히실 거라 생각합니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&#39;[블록체인 개발 기초 A to Z] EOSIO Smart Contract 특징&#39; 글에서 &#39;EOSIO Smart Contract 작성 과정&#39;를 아래와 같이 다섯 단계로 나눴습니다.</p>
+<ol start='' >
+<li>스마트 컨트랙트 코드 작성 </li>
+<li>Ricardian Contract 작성</li>
+<li>테스트넷 구축</li>
+<li>블록체인에 스마트 컨트랙트 세팅</li>
+<li>서버에서 스마트 컨트랙트 함수 실행</li>
+
+</ol>
+<p>&nbsp;</p>
+<p>&#39;5. 서버에서 스마트 컨트랙트 함수 실행&#39;을 하기 위해서는 API를 호출해야 하는데요. 오늘부터 &#39;Python으로 API를 활용하기&#39; 시리즈를 통하여 API의 개념과 Python을 사용하여 API 활용하는 실습을 진행해보도록 하겠습니다.</p>
+<p>물론, &#39;서버에서&#39; 작업하기 때문에 서버를 구축하는 방법을 자세히 다룰수도 있지만 <strong>서버에서 블록체인을 활용하는 방법</strong>에 더 집중하기 위하여 <strong>API</strong> 활용법에 포커스를 잡았습니다.</p>
+<p>&nbsp;</p>
+<p>이제 본격적으로 &#39;Python으로 API 활용하기&#39; 시리즈를 시작해보도록 하겠습니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>API 개념</h2>
+<p><img src='/Users/sunny/deveos/posts/img/01-03-dapp구조.png' alt='dapp구조' referrerPolicy='no-referrer' /></p>
+<p>dApp 구조는 기존의 APP에 공개 데이터베이스를 추가한 것입니다. 클라이언트, 서버, 데이터베이스(비공개 데이터베이스), 블록체인(공개 데이터베이스)로 구성되어 있습니다.</p>
+<p>&nbsp;</p>
+<p><img src='/Users/sunny/deveos/posts/img/01-03-api.png' alt='api' referrerPolicy='no-referrer' /></p>
+<p>API로 다른 서비스들끼리 통신합니다. 웹 서비스, 인터넷 세상에서 사용하는 API이기 때문에 정확히는 Web API지만, 여기서는 API라고 부르겠습니다.</p>
+<p>API는 Application Programmin Interface의 약자로, &#39;APP 개발에서 <strong>다른 서비스에 요청을 보내고 응답을 받기 위해 정의된 명세</strong>&#39;로 정의할 수 있습니다.</p>
+<p>&nbsp;</p>
+<p><img src='/Users/sunny/deveos/posts/img/01-03-api2.png' alt='api2' referrerPolicy='no-referrer' /></p>
+<p>정의된 것처럼 API는 <strong>요청(request)</strong>이 들어오면 <strong>응답(response)</strong>을 합니다.</p>
+<p>클라이언트가 서버에게 요청을 보내면, 서버는 그 요청에 정의된 내용에 대한 응답을 합니다. 예를 들어, EOSIO JSON RPC API를 사용하면 서버에서 스마트 컨트랙트 함수를 실행시켜서 블록체인에 직접 접속하지 않고도 서버에서 트랜잭션을 전송할 수 있습니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr />
+<p>오늘은 간단하게 API의 개념을 다루어보았습니다. 하지만 이걸 꼭 알고계셔야 다음을 이해하실 수 있습니다.</p>
+<p>이어서 REST API을 배울 예정입니다. 다음에 또 만나요!</p>
+<p>&nbsp;</p>
+</body>
+</html>

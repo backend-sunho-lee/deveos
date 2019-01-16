@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+</head>
+<body>
+<p>안녕하세요! <a href='https://deveos.org/'>DEVEOS</a>의 블록체인 개발자 써니입니다☀️</p>
+<p>&nbsp;</p>
+<p>지난 편에서는 API의 개념에 대해서 배웠습니다. API는 다른 서비스에 요청을 보내고 응답을 받기 위해 정의된 명세라는 것 기억하고 계시지요? 다시 되새기면서 REST API에 대해서 배우도록 하겠습니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>REST API</h2>
+<p>API는 REST 구조로 작성됩니다.</p>
+<p>REST는 REpresentational State Transfer의 약자로, 직역하면 대표 상태 전달입니다. 그리고 REST 구조를 잘 지킨 API를 RESTful API 또는 REST API 라고 합니다.</p>
+<p>&nbsp;</p>
+<p>REST는 어떤 자원(resource)으로 어떤 행위(method)를 할 것인가를 명시하는 API를 정의하는 방법입니다. 다시 말하면, REST API는 어떤 자원을 어떤 행위로 요청하여 어떤 응답을 줄 것인지 정의한 것입니다.</p>
+<p>&nbsp;</p>
+<p>여기서 행위(method)는 CRUD입니다.</p>
+<blockquote><p><strong>CRUD</strong>
+Create(생성), Read(조회), Update(수정), Delete(삭제)를 합친 단어로서, 대부분의 컴퓨터 소프트웨어가 가지는 기본적인 데이터 처리 기능입니다. &#39;데이터는 생성, 조회, 수정, 삭제 처리 할 수 있다&#39;는 의미입니다.</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>자원</h3>
+<p>그럼 여기서 말하는 자원(resource)는 무엇일까요? </p>
+<p>자원은 서비스에서 다루는 정보, 데이터를 의미합니다.</p>
+<p>&nbsp;</p>
+<p><img src='/Users/sunny/deveos/posts/img/01-03-자원2.png' alt='주소록1' referrerPolicy='no-referrer' /></p>
+<p>주소록하면 위와 같은 이미지가 떠오르실겁니다. </p>
+<p>&nbsp;</p>
+<p><img src='/Users/sunny/deveos/posts/img/01-03-자원.png' alt='주소록2' referrerPolicy='no-referrer' /></p>
+<p>그리고 주소록에 등록된 연락처를 클릭하면 이와 같이 연락처 정보들이 나타납니다.</p>
+<p>&nbsp;</p>
+<figure><table>
+<thead>
+<tr><th>id</th><th>first_name</th><th>last_name</th><th>street</th><th>city</th></tr></thead>
+<tbody><tr><td>1</td><td>Alice</td><td>Kim</td><td>월드컵로</td><td>서울특별시</td></tr><tr><td>2</td><td>Bess</td><td>Park</td><td>봉은사로</td><td>서울특별시</td></tr><tr><td>3</td><td>Cathy</td><td>Lee</td><td>신촌로</td><td>서울특별시</td></tr></tbody>
+</table></figure>
+<p>서버에는 주소록 데이터가 위의 표와 같이 저장되어 있습니다. </p>
+<p>&nbsp;</p>
+<p>클라이언트에서 API로 서버에 요청을 보내면 서버는 주소록 데이터를 클라이언트에게 응답으로 보냅니다. 그럼 클라이언트는 응답으로 받은 데이터를 사용자가 보기 좋게 뿌려줍니다.</p>
+<p>서버는 주소록에 들어가는 이름, 이메일, 주소 등의 데이터를 관리합니다. 네이버 뉴스의 뉴스, 블로그의 게시물, 우리가 회원가입한 곳의 회원정보를 서버에서 관리합니다.</p>
+<p>&nbsp;</p>
+<p>API로 어떤 데이터들이 오가는지 감이 잡히셨나요? 이제부터 주소록 REST API를 작성하는 방법을 차근차근 배워보도록 하겠습니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>REST API 작성 기본틀</h3>
+<figure><table>
+<thead>
+<tr><th>기능</th><th>Route</th><th>Method</th><th>CRUD</th></tr></thead>
+<tbody><tr><td>resource들의 목록을 표시</td><td>/resources</td><td>GET</td><td>READ</td></tr><tr><td>resource 하나의 내용을 표시</td><td>/resources/:id</td><td>GET</td><td>READ</td></tr><tr><td>resource를 생성</td><td>/resources</td><td>POST</td><td>CREATE</td></tr><tr><td>resource를 수정</td><td>/resources/:id</td><td>PUT</td><td>UPDATE</td></tr><tr><td>resource를 삭제</td><td>/resources/:id</td><td>DELETE</td><td>DELETE</td></tr></tbody>
+</table></figure>
+<p>REST API의 기본틀입니다. RESTful API를 작성하는 공식적인 규칙은 없지만 위 표에서 크게 벗어나는 경우는 거의 없습니다.</p>
+<p>&nbsp;</p>
+<p>위의 표를 통해 확인할 수 있는 특징은 이와 같습니다.</p>
+<ul>
+<li>좋은 RESTful API는 Route만 봐도 어떤 자원을 다루는지 알 수 있어야 한다</li>
+<li>Route의 자원(resource)은 복수형으로 작성한다</li>
+<li><code>:id</code> 는 하나의 특정 자원을 나타내는 값의 이름이다. 콜론을 붙여서 &#39;값&#39;임을 나타낸다</li>
+<li>하나의 자원을 CRUD 한다</li>
+
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>이 표를 만들기위해 여러분들이 제일 먼저 정해야 할 것은 무엇일까요? 바로 <strong>어떤 자원</strong>을 다룰 것인지를 정해야합니다. </p>
+<p>&nbsp;</p>
+<p>다음 시간부터 주소록 예제로 어떤 자원을 선택하고 그 자원으로 어떤 행위를 할지 직접 실습해보도록 하겠습니다. 다음 시간에 뵙겠습니다!</p>
+</body>
+</html>
