@@ -4,48 +4,42 @@ using namespace eosio;
 using namespace std;
 
 class [[eosio::contract]] addressbook : public contract {
+    private:
+        struct [[eosio::table]] person {
+            name key;
+            string first_name;
+            string last_name;
+            string phone;
 
-private:
-  struct [[eosio::table]] person {
-    name key;
-    string first_name;
-    string last_name;
-    string street;
-    string city;
-    
-    uint64_t primary_key() const { return key.value; }
-  };
-  typedef eosio::multi_index<"people"_n, person> address_index;
+            uint64_t primary_key() const { return key.value; }
+        };  
 
-public:
-  //using contract::contract;
-  addressbook(name receiver, name code, datastream<const char*> ds):contract(receiver, code, ds) {}
+        typedef multi_index<"people"_n, person> adrs;
 
-  [[eosio::action]]
-  void upsert(name user, string first_name, string last_name, string street, string city, string state) {
-    address_index addresses(_code, _code.value);
-    auto iterator = addresses.find(user.value);
-    if( iterator == addresses.end() )
-    {
-      addresses.emplace(user, [&]( auto& row ) {
-       row.key = user;
-       row.first_name = first_name;
-       row.last_name = last_name;
-       row.street = street;
-       row.city = city;
-      });
-    }
-    else {
-      addresses.modify(iterator, user, [&]( auto& row ) {
-        row.key = user;
-        row.first_name = first_name;
-        row.last_name = last_name;
-        row.street = street;
-        row.city = city;
-      });
-    }
-  }
+    public:
+        using contract::contract;
 
+        [[eosio::action]]
+        void upsert (name key, string first_name, string last_name, string phone) { 
+            adrs adrstable(_code, _code.value);
+            auto existing = adrstable.find(key.value);
+
+            if (existing == adrstable.end()) {
+                adrstable.emplace(key, [&](auto& row){
+                    row.key = key;
+                    row.first_name = first_name;
+                    row.last_name = last_name;
+                    row.phone = phone;
+                }); 
+            } else {
+                adrstable.modify(existing, key, [&](auto& row){
+                    row.key = key;
+                    row.first_name = first_name;
+                    row.last_name = last_name;
+                    row.phone = phone;
+                }); 
+            }   
+        }   
 };
 
-EOSIO_DISPATCH( addressbook, (upsert))
+EOSIO_DISPATCH(addressbook, (upsert))
