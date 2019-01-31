@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<body>
+<p>안녕하세요! <a href='https://deveos.org/'>DEVEOS</a>의 블록체인 개발자 써니입니다☀️</p>
+<p>&nbsp;</p>
+<p>앞에서는 이미 만들어진 API를 사용해봤는데요. 이제 직접 코드로 API를 만들어보도록 하겠습니다.</p>
+<p>&nbsp;</p>
+<p>오늘의 코드는 Python3과 Python의 서버 프레임워크 중 하나인 Flask를 사용합니다.</p>
+<p>Python 개발환경 설치는 별도의 게시물로 작성해두었으니 확인해주세요.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>virtualenv 활성화</h2>
+<p>API를 만들기 전, 개발 환경을 세팅해주시고, Flask을 구동하기 위한 기본 세팅을 먼저 하도록 하겠습니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>Mac은 터미널, Windows는 Powershell, Linux 계열은 로그인해주시면됩니다.</p>
+<p><code>virtualenv</code>	폴더를 만든 위치로 가주세요. 제 게시물을 보고 설치하셨다면 <code>venv3</code> 폴더가 있는 위치로 이동해주세요.</p>
+<p>&nbsp;</p>
+<pre><code class='language-shell' lang='shell'>. venv3/bin/activate
+</code></pre>
+<p>가상환경을 활성화시켜줍니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h4>코드를 작성할 파일 만들기</h4>
+<p>코드를 작성할 때는 에디터가 필요하겠죠? vim으로 파일을 만들어주세요</p>
+<pre><code class='language-shell' lang='shell'>vim app.py
+</code></pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h4>python 주석</h4>
+<pre><code class='language-python' lang='python'># 한줄 주석을 입력하는 방법
+
+&quot;&quot;&quot;
+여러줄 주석을 입력하는 방법
+&quot;&quot;&quot;
+</code></pre>
+<p>python 주석을 입력하는 방법입니다</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>Flask, Hello World!</h2>
+<p>Flask 서버 프레임워크의 기본틀을 작성하도록 하겠습니다.</p>
+<pre><code class='language-python' lang='python'>from flask import Flask, make_response, jsonify, request
+
+app = Flask(__name__)
+
+@app.route(&#39;/&#39;)
+def hello():
+    return &#39;Hello World!&#39;
+
+if __name__ == &#39;__main__&#39;:
+    app.run(host=&#39;0.0.0.0&#39;, port=80)
+</code></pre>
+<p>파일을 저장하고 콘솔창으로 돌아갑니다. (<code>:wq</code> 로 나오시면 됩니다)</p>
+<p>&nbsp;</p>
+<pre><code class='language-shell' lang='shell'>python app.py
+</code></pre>
+<p>위의 명령어를 입력하고 엔터를 쳐주세요.</p>
+<p>&nbsp;</p>
+<pre><code class='language-shell' lang='shell'> * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
+</code></pre>
+<p>이 멘트가 뜬다면 에러없이 Flask 서버가 구동됐습니다.</p>
+<p>&nbsp;</p>
+<pre><code>http://localhost
+</code></pre>
+<p>인터넷으로 위 링크를 입력해주세요. </p>
+<pre><code>Hello World!
+</code></pre>
+<p>Hello World!가 출력된 것을 보실 수 있습니다.</p>
+<p>&nbsp;</p>
+<p>여기까지 잘 되셨다면, 위에서 작성한 API 문서를 기반으로 코드를 작성해보도록 하겠습니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'>rows = []
+</code></pre>
+<p>별도의 데이터베이스가 없으니, 데이터를 저장할 배열 <code>rows</code>를 선언합니다.</p>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'>from flask import Flask, make_response, jsonify, request
+
+app = Flask(__name__)
+
+@app.route(&#39;/&#39;)
+def hello():
+    return &#39;Hello World!&#39;
+
+rows = []
+
+if __name__ == &#39;__main__&#39;:
+    app.run(host=&#39;0.0.0.0&#39;, port=80)
+</code></pre>
+<p>다음 시간부터  <code>rows = []</code> 아래에 API 작성 코드를 채워나가도록 할게요.</p>
+<p>&nbsp;</p>
+</body>
+</html>

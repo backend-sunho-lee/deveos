@@ -1,0 +1,47 @@
+<!doctype html>
+<body>
+<p>안녕하세요! <a href='https://deveos.org/'>DEVEOS</a>의 블록체인 개발자 써니입니다☀️</p>
+<p>&nbsp;</p>
+<p>새로운 데이터를 추가하는 POST와 데이터를 조회하는 GET에 대해서 배웠고, 오늘은 이어서 데이터를 수정하는 UPDATE와 데이터를 삭제하는 DELETE를 배워보도록 하겠습니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>PUT</h2>
+<figure><table>
+<thead>
+<tr><th>CRUD</th><th>Update</th><th>&nbsp;</th></tr></thead>
+<tbody><tr><td>Method</td><td>PUT</td><td>API 요청시 설정, CRUD 의미</td></tr><tr><td>Route</td><td>/addressbook/:id</td><td>어떤 자원을 다루는지를 의미<br />오늘 예제에서는 주소록을 다루므로 addressbook으로 정함</td></tr><tr><td>기능</td><td>주소록에 등록된 연락처의 정보를 수정한다</td><td>API가 무슨 동작을 하는지 설명</td></tr><tr><td>요청시 필요한 데이터</td><td>id: 데이터베이스에 저장된 해당 연락처의 번호<br />first_name: 이름<br />last_name: 성<br />phone: 전화번호</td><td>API를 요청할 때 함께 보내줘야 할 데이터를 의미</td></tr><tr><td>Response</td><td>{<br/>    &quot;first_name&quot;: &quot;alice&quot;,
+    &quot;id&quot;: 2,
+    &quot;last_name&quot;: &quot;kim&quot;,
+    &quot;phone&quot;: &quot;01022111222&quot;
+}</td><td>요청이 완료되면 응답으로 보낼 데이터의 형식 의미</td></tr></tbody>
+</table></figure>
+<p>&nbsp;</p>
+<p>주소록에 저장된 연락처의 정보를 수정하는 API입니다. </p>
+<p>&nbsp;</p>
+<p><img src='/Users/sunny/deveos/posts/img/01-03-put.png' alt='01-03-put' referrerPolicy='no-referrer' /></p>
+<p><code>PUT</code> 메소드로 <code>http://localhost/addressbook/1</code> URI에 요청시 필요한 데이터인 first_name, last_name, phone 값을 입력하면 입력된 값으로 데이터가 수정되고, 응답으로 수정된 값을 확인할 수 있습니다. </p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>DELETE</h2>
+<figure><table>
+<thead>
+<tr><th>CRUD</th><th>Delete</th><th>&nbsp;</th></tr></thead>
+<tbody><tr><td>Method</td><td>DELETE</td><td>API 요청시 설정, CRUD 의미</td></tr><tr><td>Route</td><td>/addressbook/:id</td><td>어떤 자원을 다루는지를 의미<br />오늘 예제에서는 주소록을 다루므로 addressbook으로 정함</td></tr><tr><td>기능</td><td>주소록에 등록된 특정 연락처를 삭제한다</td><td>API가 무슨 동작을 하는지 설명</td></tr><tr><td>요청시 필요한 데이터</td><td>id: 데이터베이스에 저장된 해당 연락처의 번호</td><td>API를 요청할 때 함께 보내줘야 할 데이터를 의미</td></tr><tr><td>Response</td><td>{<br/>    &quot;id&quot;: 2
+}</td><td>요청이 완료되면 응답으로 보낼 데이터의 형식 의미</td></tr></tbody>
+</table></figure>
+<p>&nbsp;</p>
+<p>주소록에 저장된 연락처를 삭제하는 API입니다. </p>
+<p>&nbsp;</p>
+<p><img src='/Users/sunny/deveos/posts/img/01-03-delete.png' alt='01-03-put' referrerPolicy='no-referrer' /></p>
+<p><code>DELETE</code> 메소드로 <code>http://localhost/addressbook/1</code> URI에 요청하면 응답으로 삭제된 연락처의 번호를 확인할 수 있습니다. </p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr />
+<p>여기까지 REST API를 만들고, 만들어져있는 API를 요청하고 응답받는 실습을 포스트맨을 사용하여 진행해봤습니다. 다음 시간부터는 코드로 API를 직접 만들어 보도록 할게요.</p>
+<p>&nbsp;</p>
+<p>Python을 설치해주시고, Python 기초 문법 게시물을 미리 보고 와주세요 :)</p>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<body>
+<p>안녕하세요! <a href='https://deveos.org/'>DEVEOS</a>의 블록체인 개발자 써니입니다☀️</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>PUT</h2>
+<figure><table>
+<thead>
+<tr><th>CRUD</th><th>Update</th><th>&nbsp;</th></tr></thead>
+<tbody><tr><td>Method</td><td>PUT</td><td>API 요청시 설정, CRUD 의미</td></tr><tr><td>Route</td><td>/addressbook/:id</td><td>어떤 자원을 다루는지를 의미<br />오늘 예제에서는 주소록을 다루므로 addressbook으로 정함</td></tr><tr><td>기능</td><td>주소록에 등록된 연락처의 정보를 수정한다</td><td>API가 무슨 동작을 하는지 설명</td></tr><tr><td>요청시 필요한 데이터</td><td>id: 데이터베이스에 저장된 해당 연락처의 번호<br />first_name: 이름<br />last_name: 성<br />phone: 전화번호</td><td>API를 요청할 때 함께 보내줘야 할 데이터를 의미</td></tr><tr><td>Response</td><td>{<br/>    &quot;first_name&quot;: &quot;alice&quot;,
+    &quot;id&quot;: 2,
+    &quot;last_name&quot;: &quot;kim&quot;,
+    &quot;phone&quot;: &quot;01022111222&quot;
+}</td><td>요청이 완료되면 응답으로 보낼 데이터의 형식 의미</td></tr></tbody>
+</table></figure>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'># 연락처 수정
+@app.route(&#39;/addressbook/&lt;int:id&gt;&#39;, methods=[&#39;PUT&#39;])
+def modify(id):
+    row = [r for r in rows if r[&#39;id&#39;] == id]
+    if not row:
+        row = {
+            &quot;message&quot;: &#39;존재하지 않는 사용자입니다&#39;
+        }
+    else:
+        row = row[0]
+
+    row[&#39;first_name&#39;] = request.values.get(&#39;first_name&#39;)
+    row[&#39;last_name&#39;] = request.values.get(&#39;last_name&#39;)
+    row[&#39;phone&#39;] = request.values.get(&#39;phone&#39;)
+
+    return make_response(jsonify(row), 200)
+</code></pre>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'>row[&#39;first_name&#39;] = request.values.get(&#39;first_name&#39;)
+</code></pre>
+<p><code>id</code> 로 일치하는 <code>row</code> 를 찾은 다음, 그 row에 저장된 데이터를 입력된 값으로 바꾸는 문장입니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>파일을 저장하고 콘솔창으로 돌아갑니다. (<code>:wq</code> 로 나오시면 됩니다)</p>
+<pre><code class='language-shell' lang='shell'>python app.py
+</code></pre>
+<p>위의 명령어를 입력하고 엔터를 쳐주세요.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><img src='/Users/sunny/deveos/posts/img/01-03-put.png' alt='01-03-put' referrerPolicy='no-referrer' /></p>
+<p>포스트맨에서 Method, URI, Body 부분에 값을 입력해주시고 &#39;Send&#39; 버튼을 누르시면 실행됩니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>DELETE</h3>
+<figure><table>
+<thead>
+<tr><th>CRUD</th><th>Delete</th><th>&nbsp;</th></tr></thead>
+<tbody><tr><td>Method</td><td>DELETE</td><td>API 요청시 설정, CRUD 의미</td></tr><tr><td>Route</td><td>/addressbook/:id</td><td>어떤 자원을 다루는지를 의미<br />오늘 예제에서는 주소록을 다루므로 addressbook으로 정함</td></tr><tr><td>기능</td><td>주소록에 등록된 특정 연락처를 삭제한다</td><td>API가 무슨 동작을 하는지 설명</td></tr><tr><td>요청시 필요한 데이터</td><td>id: 데이터베이스에 저장된 해당 연락처의 번호</td><td>API를 요청할 때 함께 보내줘야 할 데이터를 의미</td></tr><tr><td>Response</td><td>{<br/>    &quot;id&quot;: 2
+}</td><td>요청이 완료되면 응답으로 보낼 데이터의 형식 의미</td></tr></tbody>
+</table></figure>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'># 연락처 삭제
+@app.route(&#39;/addressbook/&lt;int:id&gt;&#39;, methods=[&#39;DELETE&#39;])
+def erase(id):
+    del rows[id-1]
+    return make_response(jsonify(id=id), 200)
+</code></pre>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'>del rows[id-1]
+</code></pre>
+<p><code>rows</code> 배열에서 id-1번째 자리에 있는 데이터를 삭제하는 문장입니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>파일을 저장하고 콘솔창으로 돌아갑니다. (<code>:wq</code> 로 나오시면 됩니다)</p>
+<pre><code class='language-shell' lang='shell'>python app.py
+</code></pre>
+<p>위의 명령어를 입력하고 엔터를 쳐주세요.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><img src='/Users/sunny/deveos/posts/img/01-03-delete.png' alt='01-03-delete' referrerPolicy='no-referrer' /></p>
+<p>Method, URI 부분에 값을 입력해주시고 &#39;Send&#39; 버튼을 누르시면 실행됩니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr />
+<p>여기까지, 본인 서버에서 API를 만드는, 내부 API를 만드는 작업을 해봤습니다.</p>
+<p>&nbsp;</p>
+<p>외부 API를 활용해야 할 때는 어떻게 해야 할까요?</p>
+<p>서버에서 requests 패키지를 활용하여 API를 만듭니다. 외부 API를 호출하는 내부 API를 만드는겁니다.</p>
+<p>&nbsp;</p>
+<p>다음 시간부터 requests 패키지를 활용해 외부 API를 요청하고 응답받는 방법을 배워보도록 하겠습니다.</p>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<body>
+<p>안녕하세요! <a href='https://deveos.org/'>DEVEOS</a>의 블록체인 개발자 써니입니다☀️</p>
+<p>&nbsp;</p>
+<h3>GET</h3>
+<figure><table>
+<thead>
+<tr><th>CRUD</th><th>Read</th><th>&nbsp;</th></tr></thead>
+<tbody><tr><td>Method</td><td>GET</td><td>API 요청시 설정, CRUD 의미</td></tr><tr><td>Route</td><td>/addressbook</td><td>어떤 자원을 다루는지를 의미<br />오늘 예제에서는 주소록을 다루므로 addressbook으로 정함</td></tr><tr><td>기능</td><td>주소록에 등록된 연락처들의 목록을 조회한다</td><td>API가 무슨 동작을 하는지 설명</td></tr><tr><td>요청시 필요한 데이터</td><td>없음</td><td>API를 요청할 때 함께 보내줘야 할 데이터를 의미</td></tr><tr><td>Response</td><td>{<br/>    &quot;adrs&quot;: [
+        {
+            &quot;first_name&quot;: &quot;sunny&quot;,
+            &quot;id&quot;: 1,
+            &quot;last_name&quot;: &quot;lee&quot;,
+            &quot;phone&quot;: &quot;01020190124&quot;
+        }
+    ]
+}</td><td>요청이 완료되면 응답으로 보낼 데이터의 형식 의미</td></tr></tbody>
+</table></figure>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'># 연락처 목록 조회
+@app.route(&#39;/addressbook&#39;)
+def find_list():
+    return make_response(jsonify(adrs=rows), 200)
+</code></pre>
+<p>전체 목록을 조회하는 API는 별다른 작업없이 저장된 <code>rows</code> 를 그대로 응답으로 보냅니다.</p>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'>@app.route(&#39;/addressbook&#39;)
+</code></pre>
+<p><code>methods</code> 를 별도로 입력하지 않으면 기본으로 &#39;GET&#39;으로 처리됩니다.</p>
+<p>&nbsp;</p>
+<p>다음으로 주소록에서 하나의 연락처만 조회하는 API 코드를 작성합니다.</p>
+<figure><table>
+<thead>
+<tr><th>CRUD</th><th>Read</th><th>&nbsp;</th></tr></thead>
+<tbody><tr><td>Method</td><td>GET</td><td>API 요청시 설정, CRUD 의미</td></tr><tr><td>Route</td><td>/addressbook/:id</td><td>어떤 자원을 다루는지를 의미<br/>오늘 예제에서는 주소록을 다루므로 addressbook으로 정함</td></tr><tr><td>기능</td><td>주소록에 등록된 연락처들의 목록을 조회한다</td><td>API가 무슨 동작을 하는지 설명</td></tr><tr><td>요청시 필요한 데이터</td><td>id: 데이터베이스에 저장된 해당 연락처의 번호</td><td>API를 요청할 때 함께 보내줘야 할 데이터를 의미</td></tr><tr><td>Response</td><td>{<br/>    &quot;first_name&quot;: &quot;sunny&quot;,
+    &quot;id&quot;: 1,
+    &quot;last_name&quot;: &quot;lee&quot;,
+    &quot;phone&quot;: &quot;01020190124&quot;
+}</td><td>요청이 완료되면 응답으로 보낼 데이터의 형식 의미</td></tr></tbody>
+</table></figure>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'># 연락처 조회
+@app.route(&#39;/addressbook/&lt;int:id&gt;&#39;, methods=[&#39;GET&#39;])
+def find_one(id):
+    row = [r for r in rows if r[&#39;id&#39;] == id]
+    if not row:
+        row = {
+            &quot;message&quot;: &#39;존재하지 않는 사용자입니다&#39;
+        }
+    else:
+        row = row[0]
+    
+    return make_response(jsonify(row), 200)
+</code></pre>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'>@app.route(&#39;/addressbook/&lt;int:id&gt;&#39;, methods=[&#39;GET&#39;])
+</code></pre>
+<p><code>&lt;int:id&gt;</code> 가 동적 라우팅 파라미터입니다. 요청시 저 위치에 들어간 값을 변수로 인식합니다. 그래서 아래에 <code>def find_one(id)</code> 에서 id로 매개변수로 받습니다.</p>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'>row = [r for r in rows if r[&#39;id&#39;] == id]
+</code></pre>
+<p>입력된 id 값이 들어간 데이터를 찾는 문장입니다. </p>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'>if not row:
+    row = {
+        &quot;message&quot;: &#39;존재하지 않는 사용자입니다&#39;
+    }
+else:
+    row = row[0]
+</code></pre>
+<p>&nbsp;</p>
+<p>파이썬의 if 조건문입니다.</p>
+<pre><code class='language-python' lang='python'>if 조건식:
+    # 조건이 True인 경우
+else:
+	# 조건이 False인 경우
+</code></pre>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'>if not row
+</code></pre>
+<p>id 값이 들어간 데이터를 찾지 못한 경우를 의미하는 조건식입니다.</p>
+<p>&nbsp;</p>
+<p>존재하지 않는 id를 입력하면 &#39;존재하지 않는 사용자입니다&#39;라는 메세지를 응답으로 보내고 존재한다면 id 값이 들어간 딕셔너리를 응답으로 보냅니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>파일을 저장하고 콘솔창으로 돌아갑니다. (<code>:wq</code> 로 나오시면 됩니다)</p>
+<pre><code class='language-shell' lang='shell'>python app.py
+</code></pre>
+<p>위의 명령어를 입력하고 엔터를 쳐주세요.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><img src='/Users/sunny/deveos/posts/img/api.png' alt='api' referrerPolicy='no-referrer' /></p>
+<p>포스트맨에서 Method, URI 부분에 값을 입력해주시고 &#39;Send&#39; 버튼을 누르시면 실행됩니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr />
+<p>다음 시간은 이어서 PUT과 DELETE 코드를 작성하도록 하겠습니다</p>
+</body>
+</html>

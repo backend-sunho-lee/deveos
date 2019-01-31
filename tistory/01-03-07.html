@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<body>
+<p>안녕하세요! <a href='https://deveos.org/'>DEVEOS</a>의 블록체인 개발자 써니입니다☀️</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'>from flask import Flask, make_response, jsonify, request
+
+app = Flask(__name__)
+
+@app.route(&#39;/&#39;)
+def hello():
+    return &#39;Hello World!&#39;
+
+rows = []
+
+if __name__ == &#39;__main__&#39;:
+    app.run(host=&#39;0.0.0.0&#39;, port=80)
+</code></pre>
+<p>지난 시간에 이어서 <code>rows = []</code> 아래에 코드를 채워나가도록 할게요.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>POST</h2>
+<figure><table>
+<thead>
+<tr><th>CRUD</th><th>Create</th><th>&nbsp;</th></tr></thead>
+<tbody><tr><td>Method</td><td>POST</td><td>API 요청시 설정, CRUD 의미</td></tr><tr><td>Route</td><td>/addressbook</td><td>어떤 자원을 다루는지를 의미<br />오늘 예제에서는 주소록을 다루므로 addressbook으로 정함</td></tr><tr><td>기능</td><td>주소록에 새로운 연락처를 저장한다</td><td>API가 무슨 동작을 하는지 설명</td></tr><tr><td>요청시 필요한 데이터</td><td>first_name: 이름<br />last_name: 성<br />phone: 전화번호</td><td>API를 요청할 때 함께 보내줘야 할 데이터를 의미</td></tr><tr><td>Response</td><td>{ &quot;first_name&quot;: &quot;sunny&quot;,<br/>    &quot;id&quot;: 3,
+    &quot;last_name&quot;: &quot;lee&quot;,
+    &quot;phone&quot;: &quot;01020190124&quot;
+}</td><td>요청이 완료되면 응답으로 보낼 데이터의 형식 의미</td></tr></tbody>
+</table></figure>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'># 연락처 생성
+@app.route(&#39;/addressbook&#39;, methods=[&#39;POST&#39;])
+def emplace():
+    newrow = {
+        &quot;id&quot;: len(rows) + 1,
+        &quot;first_name&quot;: request.values.get(&#39;first_name&#39;),
+        &quot;last_name&quot;: request.values.get(&#39;last_name&#39;),
+        &quot;phone&quot;: request.values.get(&#39;phone&#39;)
+    }
+    rows.append(newrow)
+
+    return make_response(jsonify(newrow), 200)
+</code></pre>
+<p><code>host</code> 는 별도로 설정되어 있기 때문에 코드에서는 입력하지 않습니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'>@app.route()
+</code></pre>
+<p>route를 선언합니다.</p>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'>@app.route(&#39;/라우트입력&#39;, methods=[&#39;메소드&#39;])
+def 함수이름():
+    return
+</code></pre>
+<p><code>@app.route()</code> 괄호 안에 어떤 자원을 받을지와 어떤 메소드로 받을지 선언합니다. 그리고 아래에 <code>def</code>로 함수를 선언해줘야 합니다. 함수 안에 API 문서대로 동작하는 코드를 작성합니다.</p>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'>newrow = {
+    &quot;id&quot;: len(rows) + 1,
+    &quot;first_name&quot;: request.values.get(&#39;first_name&#39;),
+    &quot;last_name&quot;: request.values.get(&#39;last_name&#39;),
+    &quot;phone&quot;: request.values.get(&#39;phone&#39;)
+}
+</code></pre>
+<p><code>rows</code> 배열안에 &#39;Dictionary(딕셔너리)&#39; 타입의 데이터를 넣을겁니다.</p>
+<p><code>newrow</code> 는 rows에 넣을 딕셔너리입니다.</p>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'>len(rows) + 1
+</code></pre>
+<p><code>rows</code> 의 길이보다 1큰 값을 다음 id 값으로 줍니다.</p>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'>request.values.get(&#39;요청시 필요한 데이터1&#39;)
+</code></pre>
+<p>API에 요청할 때 보낸 값을 서버에서 받는 방법입니다. </p>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'>rows.append(newrow)
+</code></pre>
+<p><code>newrow</code> 딕셔너리를 <code>rows</code> 배열에 추가합니다.</p>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'>return make_response(jsonify(newrow), 200)
+</code></pre>
+<p>return(반환), 응답을 해주는 부분입니다. 응답은 JSON 형식으로 합니다. </p>
+<p><code>200</code> 은 <strong>HTTP Status Code</strong> 입니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>파일을 저장하고 콘솔창으로 돌아갑니다. (<code>:wq</code> 로 나오시면 됩니다)</p>
+<pre><code class='language-shell' lang='shell'>python app.py
+</code></pre>
+<p>위의 명령어를 입력하고 엔터를 쳐주세요.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><img src='/Users/sunny/deveos/posts/img/01-03-post1.png' alt='01-03-post1' referrerPolicy='no-referrer' /></p>
+<p>포스트맨에서 실행됨을 확인하실 수 있습니다.</p>
+<p>Method, URI, Body 부분에 값을 입력해주시고 &#39;Send&#39; 버튼을 누르시면 실행됩니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr />
+<p>다음 시간에 이어서 GET 요청 코드를 작성하겠습니다.</p>
+</body>
+</html>

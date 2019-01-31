@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<body>
+<p>안녕하세요! <a href='https://deveos.org/'>DEVEOS</a>의 블록체인 개발자 써니입니다☀️</p>
+<p>&nbsp;</p>
+<p>지난 게시물에 이어서 작성합니다. 꼭 이전 게시물을 확인해주세요.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>GET</h2>
+<pre><code class='language-python' lang='python'># 연락처 목록 조회
+@app.route(&#39;/addressbook&#39;)
+def find_list():
+    response = requests.get(&#39;http://localhost/addressbook&#39;)
+    rows = response.json()
+    
+    return make_response(jsonify(rows), 200)
+</code></pre>
+<p><code>get</code> 요청은 간단하게 URI만 넘기면 됩니다.</p>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'># 연락처 조회
+@app.route(&#39;/addressbook/&lt;int:id&gt;&#39;, methods=[&#39;GET&#39;])
+def find_one(id):
+    response = requests.get(&#39;http://localhost/addressbook/{}&#39;.format(id))
+    row = response.json()
+    
+    return make_response(jsonify(row), 200)
+</code></pre>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'>&#39;http://localhost/addressbook/{}&#39;.format(id)
+</code></pre>
+<p><code>format</code> 은 문자열에 변수의 값을 넣어주는 함수입니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>PUT</h2>
+<pre><code class='language-python' lang='python'># 연락처 수정
+@app.route(&#39;/addressbook/&lt;int:id&gt;&#39;, methods=[&#39;PUT&#39;])
+def modify(id):
+    updaterow = {
+        &quot;first_name&quot;: request.values.get(&#39;first_name&#39;),
+        &quot;last_name&quot;: request.values.get(&#39;last_name&#39;),
+        &quot;phone&quot;: request.values.get(&#39;phone&#39;)
+    }
+    response = requests.put(&#39;http://localhost/addressbook/{}&#39;.format(id), data=updaterow)
+    row = response.json()
+
+    return make_response(jsonify(row), 200)
+</code></pre>
+<p>PUT 메소드는 POST의 사용법과 비슷합니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>DELETE</h2>
+<pre><code class='language-python' lang='python'># 연락처 삭제
+@app.route(&#39;/addressbook/&lt;int:id&gt;&#39;, methods=[&#39;DELETE&#39;])
+def erase(id):
+    response = requests.delete(&#39;http://localhost/addressbook/{}&#39;.format(id))
+    row = response.json()
+    
+    return make_response(jsonify(row), 200)
+</code></pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr />
+<p>이렇게 API 활용법의 기나긴 여정이 끝났습니다.</p>
+<p>CRUD와 API 문서를 읽는 방법만 아신다면, 파이썬 이외의 어떤 프로그래밍 언어로도 API를 만드실 수 있습니다.</p>
+<p>&nbsp;</p>
+</body>
+</html>

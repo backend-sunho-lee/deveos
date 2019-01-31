@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<body>
+<p>안녕하세요! <a href='https://deveos.org/'>DEVEOS</a>의 블록체인 개발자 써니입니다☀️</p>
+<p>&nbsp;</p>
+<p>지난 시간까지 서버에서 API를 만드는 방법을 배웠습니다. 그리고 오늘은 외부 API, 다른 사람이 만들어둔 API를 활용하는 방법에 대해서 배워보도록 하겠습니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>virtualenv 활성화</h2>
+<p>Mac은 터미널, Windows는 Powershell, Linux 계열은 로그인해주시면됩니다.</p>
+<p><code>virtualenv</code>	폴더를 만든 위치로 가주세요. 제 게시물을 보고 설치하셨다면 <code>venv3</code> 폴더가 있는 위치로 이동해주세요.</p>
+<p>&nbsp;</p>
+<pre><code class='language-shell' lang='shell'>. venv3/bin/activate
+</code></pre>
+<p>가상환경을 활성화시켜줍니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h4>코드를 작성할 파일 만들기</h4>
+<p>코드를 작성할 때는 에디터가 필요하겠죠? vim으로 파일을 만들어주세요</p>
+<pre><code class='language-shell' lang='shell'>vim external_api.py
+</code></pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>Flask 기본틀 작성</h2>
+<pre><code class='language-python' lang='python'>from flask import Flask, make_response, jsonify, request
+import requests
+
+app = Flask(__name__)
+
+if __name__ == &#39;__main__&#39;:
+    app.run(host=&#39;0.0.0.0&#39;)
+</code></pre>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'>import requests
+</code></pre>
+<p>requests 패키지를 사용하겠다고 호출합니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>POST</h3>
+<pre><code class='language-python' lang='python'># 연락처 생성
+@app.route(&#39;/addressbook&#39;, methods=[&#39;POST&#39;])
+def emplace():
+    newrow = {
+        &quot;first_name&quot;: request.values.get(&#39;first_name&#39;),
+        &quot;last_name&quot;: request.values.get(&#39;last_name&#39;),
+        &quot;phone&quot;: request.values.get(&#39;phone&#39;)
+    }
+    response = requests.post(&#39;http://localhost/addressbook&#39;, data=newrow)
+    row = response.json()
+
+    return make_response(jsonify(row), 200)
+</code></pre>
+<p>앞서 작성한 route 틀과는 똑같지만 requests 패키지를 활용한다는 점만 다릅니다.</p>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'>response = requests.post(&#39;http://localhost/addressbook&#39;, data=newrow)
+</code></pre>
+<p>requests 패키지로 post를 요청합니다. URI를 입력해주고, Body에 담을 데이터를 <code>data</code> 의 값으로 넣어줍니다. 그리고 requests 요청한 결과를 <code>response</code> 변수로 받습니다.</p>
+<p>&nbsp;</p>
+<pre><code class='language-python' lang='python'>row = response.json()
+</code></pre>
+<p>API 응답 데이터는 JSON 형식으로 오기 때문에 response.json()을 row라는 변수의 값으로 넣어줍니다.</p>
+<p>&nbsp;</p>
+<p>내부 API 내에서 외부 API를 요청하여 응답을 받고 그 응답을 내부 API의 응답으로 보내는 상황입니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>실행하기</h2>
+<p>파일을 저장하고 콘솔창으로 돌아갑니다. (<code>:wq</code> 로 나오시면 됩니다)</p>
+<p>&nbsp;</p>
+<p>혼자서는 실습을 진행할 외부 호스트가 없는 상황이죠? 그래서 본인 컴퓨터에서 두개의 서버를 돌려서 실습하도록 하겠습니다.</p>
+<p>&nbsp;</p>
+<p>지난 실습 때 <code>app.py</code> 도 만들었었는데요. 그 파일과 오늘 작성한 파일을 함께 실행하도록 하겠습니다.</p>
+<p>Terminal/Powershell/Ubuntu를 두개 띄워주세요. 터미널을 사용하시는 중이라면 터미널 창을 2개 띄우시면 됩니다.</p>
+<p>&nbsp;</p>
+<pre><code class='language-shell' lang='shell'>python app.py
+</code></pre>
+<p>하나의 창에는 위 명령어를 입력하시고,</p>
+<p>&nbsp;</p>
+<pre><code class='language-shell' lang='shell'>python external_api.py
+</code></pre>
+<p>나머지 하나는 위의 명령어를 입력해주세요.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><img src='/Users/sunny/deveos/posts/img/01-03-post1.png' alt='01-03-post1' referrerPolicy='no-referrer' /></p>
+<ul>
+<li>Method: POST</li>
+<li>URI: <a href='http://localhost:5000/addressbook' target='_blank' class='url'>http://localhost:5000/addressbook</a></li>
+<li>Body의 form-data: first_name, last_name, phone 값을 입력해주세요.</li>
+
+</ul>
+<p>&nbsp;</p>
+<p>포스트맨에서 실행됨을 확인하실 수 있습니다. 이전에 실습한 URI에서 호스트 주소가 다르니 꼭 <code>:5000</code> 을 입력해주세요.</p>
+<p>&nbsp;</p>
+</body>
+</html>

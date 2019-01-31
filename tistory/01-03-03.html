@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<body>
+<p>안녕하세요! <a href='https://deveos.org/'>DEVEOS</a>의 블록체인 개발자 써니입니다☀️</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>오늘은 포스트맨을 활용하여 API를 요청하고 응답을 받는 실습을 시작하도록 하겠습니다.</p>
+<p>&nbsp;</p>
+<h3>REST API 기본틀 작성</h3>
+<figure><table>
+<thead>
+<tr><th>기능</th><th>Route</th><th>Method</th><th>CRUD</th></tr></thead>
+<tbody><tr><td>resource들의 목록을 표시</td><td>/resources</td><td>GET</td><td>READ</td></tr><tr><td>resource 하나의 내용을 표시</td><td>/resources/:id</td><td>GET</td><td>READ</td></tr><tr><td>resource를 생성</td><td>/resources</td><td>POST</td><td>CREATE</td></tr><tr><td>resource를 수정</td><td>/resources/:id</td><td>PUT</td><td>UPDATE</td></tr><tr><td>resource를 삭제</td><td>/resources/:id</td><td>DELETE</td><td>DELETE</td></tr></tbody>
+</table></figure>
+<p>지난 시간에 REST API의 기본틀을 작성해봤는데요. 이걸 기반으로 주소록 API도 만들어보도록 하겠습니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>주소록 API 만들기</h2>
+<p>주소록에서는 주소록에 저장된 자원(데이터)를 다룹니다. 주소록에 저장된 사람의 데이터인 이름과 전화번호를 관리하고 처리하죠.</p>
+<p>&nbsp;</p>
+<p>그래서 주소록에 저장된 데이터들을 관리하기 위해 아래의 API들을 만들 수 있습니다.</p>
+<figure><table>
+<thead>
+<tr><th>기능</th><th>Route</th><th>Method</th><th>CRUD</th></tr></thead>
+<tbody><tr><td>주소록 목록 조회</td><td>/addressbook</td><td>GET</td><td>READ</td></tr><tr><td>주소록 연락처 추가</td><td>/addressbook</td><td>POST</td><td>CREATE</td></tr><tr><td>주소록 연락처 수정</td><td>/addressbook/:id</td><td>PUT</td><td>UPDATE</td></tr><tr><td>주소록 연락처 삭제</td><td>/addressbook/:id</td><td>DELETE</td><td>DELETE</td></tr></tbody>
+</table></figure>
+<p>&nbsp;</p>
+<p>API를 어떻게 사용하는지, POSTMAN(포스트맨)으로 API 하나씩 실습해보도록 하겠습니다.</p>
+<blockquote><p><strong>Postman</strong></p>
+<p>먼저, <a href='https://www.getpostman.com/downloads/'>Postman</a> 을 다운로드 해주세요. 포스트맨은 API 개발에 필요한 도구들을 제공해주는 프로그램입니다.</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>POST</h3>
+<figure><table>
+<thead>
+<tr><th>CRUD</th><th>Create</th><th>&nbsp;</th></tr></thead>
+<tbody><tr><td>Method</td><td>POST</td><td>API 요청시 설정, CRUD 의미</td></tr><tr><td>Route</td><td>/addressbook</td><td>어떤 자원을 다루는지를 의미<br />오늘 예제에서는 주소록을 다루므로 addressbook으로 정함</td></tr><tr><td>기능</td><td>주소록에 새로운 연락처를 저장한다</td><td>API가 무슨 동작을 하는지 설명</td></tr><tr><td>요청시 필요한 데이터</td><td>first_name: 이름<br />last_name: 성<br />phone: 전화번호</td><td>API를 요청할 때 함께 보내줘야 할 데이터를 의미</td></tr><tr><td>Response</td><td>{<br/>    &quot;first_name&quot;: &quot;sunny&quot;,
+    &quot;id&quot;: 3,
+    &quot;last_name&quot;: &quot;lee&quot;,
+    &quot;phone&quot;: &quot;01020190124&quot;
+}</td><td>요청이 완료되면 응답으로 보낼 데이터의 형식 의미</td></tr></tbody>
+</table></figure>
+<p>&nbsp;</p>
+<p>API 문서는 이런 내용들이 포함되어 제공됩니다. (최소한으로 표현한 경우, 실제로는 더 다양한 내용들이 포함됩니다) API를 활용하려면 이 문서를 읽을 줄 알고, 이 문서를 기반으로 활용을 할 수 있어야 합니다.</p>
+<p>&nbsp;</p>
+<p><code>POST</code> Method(메소드)로  <code>http://localhost/addressbook</code> URI로 &#39;요청시 필요한 데이터&#39;들과 함께 Request(요청)을 보내면 데이터베이스에 데이터가 저장되고, <code>Response</code>(응답)으로 성공메세지와 함께 입력된 데이터 값들이 옵니다. 응답은 어떻게 해야된다는 규칙은 없으므로 각 API에 맞춰서 개발자 재량으로 정합니다.</p>
+<p>&nbsp;</p>
+<p>서버 개발자는 본인이 만든 API를 확인하기 위해 Postman(포스트맨)라는 도구를 사용할 수 있습니다.</p>
+<p>&nbsp;</p>
+<h4>요청시 필요한 데이터를 보내는 방법</h4>
+<p>요청시 필요한 데이터를 보내는 방법 중 오늘 두가지를 알려드릴겁니다.</p>
+<ol start='' >
+<li><p><strong>Query String (쿼리스트링)</strong></p>
+<p><img src='/Users/sunny/deveos/posts/img/01-03-post1.png' alt='01-03-api5' referrerPolicy='no-referrer' /></p>
+<blockquote><p>포스트맨 캡쳐 이미지</p>
+</blockquote>
+<p>쿼리스트링은 URI 끝 부분, 라우트 뒤에 <code>?</code> 물음표를 붙이고 뒤에 필요한 데이터 값을 <code>이름=값</code> 형식으로 쭉 나열하는 방법입니다.</p>
+<p> </p>
+<ul>
+<li><p>URI (Uniform Resource Identifier, 통합 자원 식별자): 자원의 주소</p>
+<pre><code>http://localhost/addressbook?first_name=sunny&amp;last_name=lee&amp;phone=01020190124
+</code></pre>
+<p>localhost는 <code>host</code> 입니다. /addressbook이 <code>route</code> 입니다. 그리고 route 뒤에 있는 <code>?</code> 가 쿼리 스트링이 시작되는 부분입니다. 그리고 여러 데이터들을 나열할 때는 <code>&amp;</code>로 구분지어서 여러개를 나열할 수 있습니다.</p>
+<p> </p>
+</li>
+<li><p>HTTP Status Code (HTTP 상태 코드): API 요청 결과에 대한 상태를 알려주는 코드입니다. 기본은 세자리 수로 이루어져 있으며, 백의 자리에 따라 의미가 다릅니다. </p>
+<ul>
+<li>200: OK. 성공</li>
+<li>400번대: 요청시 오류가 있음</li>
+<li>500번대: 서버의 오류</li>
+
+</ul>
+</li>
+
+</ul>
+<p> </p>
+<p>&nbsp;</p>
+</li>
+<li><p>Form-data (폼데이터)</p>
+<p><img src='/Users/sunny/deveos/posts/img/01-03-post2.png' alt='01-03-api4' referrerPolicy='no-referrer' /></p>
+</li>
+
+</ol>
+<p>폼데이터는 API 요청 시 <code>Body</code> 에 데이터를 폼데이터 형식으로 담아서 보냅니다.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr />
+<p>오늘은 새로운 데이터를 추가하는 POST 작업을 해봤습니다. 다음은 GET에 대해서 배울 예정입니다.</p>
+<p>다음에 또 만나요~!</p>
+</body>
+</html>
