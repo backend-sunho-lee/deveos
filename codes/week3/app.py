@@ -1,8 +1,9 @@
 from flask import Flask, make_response, jsonify, request
+import json
+import requests
 import eospy.cleos
 
 app = Flask(__name__)
-cleos = eospy.cleos.Cleos(url='http://fabius.ciceron.xyz:8888')
 
 @app.route('/')
 def hello():
@@ -11,11 +12,28 @@ def hello():
 
 @app.route('/get_table_rows', methods=['POST'])
 def get_table_rows():
-    code = request.values.get('account')
+    data = {
+        "json": True,
+        "code": request.values.get('account'),
+        "scope": request.values.get('scope'),
+        "table": request.values.get('table')
+    }
+    data = json.dumps(data)
+
+    response = requests.post("http://fabius.ciceron.xyz:8888/v1/chain/get_table_rows", data=data)
+    resp = response.json()
+    return make_response(jsonify(resp), 200)
+
+
+cleos = eospy.cleos.Cleos(url='http://fabius.ciceron.xyz:8888')
+
+@app.route('/get_table', methods=['POST'])
+def get_table():
+    account = request.values.get('account')
     scope = request.values.get('scope')
     table = request.values.get('table')
 
-    resp = cleos.get_table(code, scope, table)
+    resp = cleos.get_table(account, scope, table)
     return make_response(jsonify(resp), 200)
 
 
