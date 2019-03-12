@@ -1,11 +1,12 @@
 # DEVEOS
 
-DEVEOS 블로그 업로드 게시물, 블록체인을 공부한 흔적을 남깁니다.
+DEVEOS, Blockchain Development Beginner 강의 자료
+
 
 ## Blogs
 
-- [Medium](https://medium.com/@eos_dev)
 - [Naver Blog](https://blog.naver.com/deveos)
+- [Medium](https://medium.com/@eos_dev)
 - [Tistory](https://deveos.tistory.com/)
 
 
@@ -13,15 +14,12 @@ DEVEOS 블로그 업로드 게시물, 블록체인을 공부한 흔적을 남깁
 
 ## Session
 
-- 00: 블록체인 개발 기초 A to Z
-  - dApp과 Smart Contract
-  - EOSIO Smart Contract 특징
+- dApp과 Smart Contract
+- EOSIO Smart Contract 특징과 작성 과정
+- Smart Contract 코드 작성
+- 스마트 컨트랙트를 블록체인에 세팅하기
+- 블록체인 API 활용법
 
-- 01: EOS 블록체인 개발 입문 과정
-  1. 스마트 컨트랙트를 위한 eosio-cpp, C++
-  2. 서버 구축을 위한 Python
-  3. 서버 구축을 위한 Flask
-  
-- Q&A
+
+### Q&A
   - C++ 공부 어떻게 시작할까
-  
